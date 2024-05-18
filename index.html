@@ -5,11 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人网页</title>
 </head>
-     <link rel="stylesheet" href="style.css">
-     <link rel="stylesheet" href="layui.js">
-     <link rel="stylesheet" href="layui.css">
-     <link rel="stylesheet" href="layui.all.js">
 <body>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+section {
+    padding: 50px 20px;
+}
+
+.project {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+.code-preview {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.code-preview pre {
+    margin: 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    color: #333;
+    font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.code-preview .line-number {
+    display: inline-block;
+    min-width: 30px;
+    text-align: right;
+    color: #999;
+    vertical-align: top;
+    padding-right: 10px;
+    user-select: none;
+}
+
+.code-preview .line-content {
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: top;
+} 
+    </style>
     <section id="announcements">
     <h2>最新公告</h2>
     <article>
