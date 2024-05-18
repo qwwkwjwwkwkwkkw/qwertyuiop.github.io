@@ -3,163 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人网页</title>
-    <style>
-        /* 通知样式 */
-        .notification {
-            width: 300px;
-            height: auto;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(255, 251, 251, 0.3);
-            animation: slideInRight 0.5s ease-in-out forwards;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-                visibility: hidden;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-
-        .notification.fade-out {
-            animation: fadeOut 0.5s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('.notification').addClass('fade-out');
-                setTimeout(function() {
-                    $('.notification').remove();
-                }, 500);
-            }, 3000); // 3秒后开始关闭通知
-        });
-    </script>
-</head>
-<body>
-    <div class="notification">
-        <p>欢迎访问韩安童的个人主页（正在完善中...)</p>
-    </div>
+    <title>个人主页 - 韩安童</title>
+    <!-- 引入Layui CSS 和 JS -->
+    <link rel="stylesheet" href="https://www.layui.com/layui/css/layui.css" media="all">
+    <script src="https://www.layui.com/layui/layui.js"></script>
+    <!-- 自定义样式 -->
     <style>
         body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #f1f1f1;
-    text-align: center;
-    padding: 20px;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-}
-
-section {
-    padding: 50px 20px;
-}
-
-.project {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-}
-.code-preview {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    overflow-x: auto;
-}
-
-.code-preview pre {
-    margin: 0;
-    padding: 10px;
-    background-color: #f8f8f8;
-    color: #333;
-    font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-.code-preview .line-number {
-    display: inline-block;
-    min-width: 30px;
-    text-align: right;
-    color: #999;
-    vertical-align: top;
-    padding-right: 10px;
-    user-select: none;
-}
-
-.code-preview .line-content {
-    display: inline-block;
-    padding-left: 10px;
-    vertical-align: top;
-}
+            background-color: #f0f0f0;
+        }
+        .layui-card {
+            margin: 50px auto;
+            width: 80%;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        .layui-card-header {
+            border-bottom: 1px solid #e2e2e2;
+        }
+        .layui-card-body {
+            padding: 20px;
+        }
+        .layui-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 0.15em solid orange;
+            width: 0;
+            letter-spacing: 1em;
+            animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            50% { border-color: transparent; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        /* 加载动画样式 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-left-color: #009688;
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* 点击特效 */
+        .click-effect {
+            transition: all 0.3s;
+        }
+        .click-effect:active {
+            transform: scale(0.9);
+            opacity: 0.7;
+        }
+        /* 内容卡片通用样式 */
+        .content-card {
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .content-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+        /* 代码展示区样式 */
+        .code-display {
+            background-color: #f8f8f8;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .code-display pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+        }
     </style>
-    <section id="announcements">
-    <h2>最新公告</h2>
-    <article>
-        <time datetime="2023-04-01">2024/5/17</time>
-        <h3>项目</h3>
-    </article>
-</section>
-    <section id="about">
-    <h2>关于我</h2>
-    <p></p>
-    <a href="https://www.example.com">了解更多</a>
-    <section id="projects">
-    <h2>项目经历</h2>
-    <div class="project">
-        <h3>项目名称</h3>
-        <p>在线html编辑器<a href="https://qwwkwjwwkwkwkkw.github.io/qwwkwjwwkwkwkkw2.github.io/">查看项目</a></p>
-    <section id="contact">
-    <h2>联系方式</h2>
-    <p>邮箱: huahuanyilong@163.com</p>
-</section>
-</section>
-</section>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-card click-effect">
+            <div class="layui-card-header">
+                <div class="layui-avatar layui-avatar-r">
+                    <img src="path_to_your_image.jpg" alt="韩安童 - 头像">
+                </div>
+                <h2 class="layui-inline">韩安童</h2>
+            </div>
+            <div class="layui-card-body">
+                <p class="typing-effect">正在输入...这是你的个人简介，比如职业、兴趣爱好等。</p>
+            </div>
+        </div>
+
+        <!-- 代码展示区 -->
+        <div class="layui-card content-card click-effect">
+            <div class="layui-card-header">
+                <h3>代码展示</h3>
+            </div>
+            <div class="layui-card-body code-display">
+                <pre><code class="javascript">
+                    function helloWorld() {
+                        console.log("Hello, world!");
+                    }
+
+                    helloWorld();
+                </code></pre>
+            </div>
+        </div>
+
+        <!-- 个人项目区 -->
+        <div class="layui-card content-card click-effect">
+            <div class="layui-card-header">
+                <h3>个人项目</h3>
+            </div>
+            <div class="layui-card-body">
+                <ul>
+                    <li>项目1：描述项目1的内容</li>
+                    <li>项目2：描述项目2的内容</li>
+                    <li>项目3：描述项目3的内容</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 点击特效
+        document.querySelectorAll('.click-effect').forEach(element => {
+            element.addEventListener('click', function() {
+                this.classList.add('active');
+                setTimeout(() => {
+                    this.classList.remove('active');
+                }, 300);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const typingEffect = document.querySelector('.typing-effect');
+            const typingText = typingEffect.textContent;
+            typingEffect.textContent = '';
+
+            let i = 0;
+            const interval = setInterval(function() {
+                if (typingText[i] === '|') {
+                    typingEffect.style.borderRightColor = 'orange';
+                } else if (typingText[i] === ' ') {
+                    typingEffect.style.borderRightColor = 'transparent';
+                }
+                typingEffect.textContent += typingText[i];
+                i++;
+
+                if (i >= typingText.length) {
+                    clearInterval(interval);
+                }
+            }, 100);
+        });
+            
+    </script>
 </body>
 </html>
+          
+
+
+
+  
