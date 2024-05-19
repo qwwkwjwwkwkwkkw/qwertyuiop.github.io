@@ -10,6 +10,14 @@
     <!-- 自定义样式 -->
     <style>
         body {
+    background-image: url('background.jpg');
+    background-size: cover; /* 背景图片自适应填充 */
+    background-position: center; /* 图片居中 */
+    background-repeat: no-repeat; /* 不重复 */
+    margin: 0;
+    padding: 0;
+}       
+        body {
             background-color: #f0f0f0;
         }
         .layui-card {
@@ -106,10 +114,14 @@
                 <h2 class="layui-inline">韩安童</h2>
             </div>
             <div class="layui-card-body">
-                <p class="typing-effect">正在输入...这是你的个人简介，比如职业、兴趣爱好等。</p>
+                <p class="typing-effect">欢迎访问我的个人主页！！！！！！！！！！！！！！！！！！！！！111</p>
             </div>
         </div>
-
+        <div class="layui-input-block">
+            <input type="text" id="user-input" lay-verify="required" placeholder="请输入问题">
+            <button class="layui-btn" id="ask-ai">询问AI助手</button>
+        </div>
+        <div id="ai-response"></div>
         <!-- 代码展示区 -->
         <div class="layui-card content-card click-effect">
             <div class="layui-card-header">
@@ -117,11 +129,19 @@
             </div>
             <div class="layui-card-body code-display">
                 <pre><code class="javascript">
-                    function helloWorld() {
-                        console.log("Hello, world!");
-                    }
-
-                    helloWorld();
+                    let i = 0;
+                    const interval = setInterval(function() {
+                        if (typingText[i] === '|') {
+                            typingEffect.style.borderRightColor = 'orange';
+                        } else if (typingText[i] === ' ') {
+                            typingEffect.style.borderRightColor = 'transparent';
+                        }
+                        typingEffect.textContent += typingText[i];
+                        i++;
+        
+                        if (i >= typingText.length) {
+                            clearInterval(interval);
+                        }
                 </code></pre>
             </div>
         </div>
@@ -133,7 +153,8 @@
             </div>
             <div class="layui-card-body">
                 <ul>
-                    <li>项目1：描述项目1的内容</li>
+                    <li>在线html编辑器><a href="https://qwwkwjwwkwkwkkw.github.io/qwwkwjwwkwkwkkw2.github.io/">在线html编辑器</a></li>
+                    <li>抽卡模拟器（制作中</li>
                     <li>项目2：描述项目2的内容</li>
                     <li>项目3：描述项目3的内容</li>
                 </ul>
@@ -142,6 +163,100 @@
     </div>
 
     <script>
+document.getElementById('ask-ai').addEventListener('click', function () {
+    const userInput = document.getElementById('user-input').value;
+    const aiResponse = getAiResponse(userInput);
+
+    if (aiResponse) {
+        document.getElementById('ai-response').innerText = aiResponse;
+    } else {
+        document.getElementById('ai-response').innerText = "抱歉，我不明白你的意思。";
+    }
+});
+
+function getAiResponse(userInput) {
+    const responses = {
+    "你好": "你好，有什么我可以帮助你的吗？",
+    "天气": "今天天气晴朗，适合出门活动。",
+    "天气怎么样": "今天天气晴朗，适合出门活动。",
+    "再见": "期待下次见到你！",
+    "你是谁": "我是你的AI助手，专门为你提供帮助。",
+    "你能做什么": "我可以回答你的问题，帮你解决问题。",
+    "数学题": "请告诉我具体的数学问题，我会尽力帮你解答。",
+    "编程问题": "请描述你的编程问题，我会尽我所能提供帮助。",
+    "历史": "关于历史的问题，我可以提供一些基本信息，但可能不够全面。",
+    "科学": "对于科学问题，我会提供一些基础知识，但复杂问题可能需要专业解答。",
+    "音乐": "音乐是个美妙的话题，你喜欢什么类型的音乐呢？",
+    "电影": "你最近看过什么好电影吗？我可以推荐一些热门影片。",
+    "书籍": "阅读是个好习惯，你最喜欢哪本书？",
+    "旅游": "旅行总是很有趣，你有想去的地方吗？",
+    "运动": "运动有益健康，你最喜欢的运动是什么？",
+    "美食": "美食是生活的一部分，你对哪个菜系感兴趣？",
+    "技术": "技术日新月异，你关注哪些领域的新技术？",
+    "新闻": "保持对新闻的关注很重要，你对哪方面的新闻感兴趣？",
+    "艺术": "艺术无国界，你对哪种艺术形式感兴趣？",
+    "学习": "学习永无止境，你正在学习什么新知识？",
+    "健康": "健康第一，你有什么保持健康的秘诀？",
+    "工作": "工作是生活的一部分，你对你的工作满意吗？",
+    "娱乐": "放松一下吧，你有什么娱乐活动推荐？",
+    "家庭": "家庭是温暖的港湾，你和家人相处得如何？",
+    "友情": "朋友是生活的调味品，你有哪些好朋友？",
+    "爱情": "爱情是美好的，你对爱情有什么看法？",
+    "梦想": "每个人都有梦想，你的梦想是什么？",
+    "挑战": "面对挑战，你会如何应对？",
+    "建议": "如果你有任何建议，我会认真听取。",
+    "感谢": "不用谢，我很乐意帮助你。",
+    "再见": "期待下次见到你！",
+    "其他": "抱歉，我没有理解你的问题。请重新描述一下。"
+    };
+
+    for (let key in responses) {
+        if (userInput.includes(key)) {
+            return responses[key];
+        }
+    }
+    return null;
+}
+
+var aiAssistantLayer = null;
+
+document.getElementById('toggle-ai-assistant').addEventListener('click', function () {
+    if (aiAssistantLayer) {
+        layer.close(aiAssistantLayer); // 关闭AI助手
+    } else {
+        aiAssistantLayer = layer.open({
+            type: 1, // 层类型为1（iframe层）
+            title: 'AI助手',
+            shade: 0.5, // 遮罩层透明度
+            area: ['300px', '400px'], // 宽高
+            content: `
+                <div class="layui-input-block">
+                    <input type="text" id="user-input" lay-verify="required" placeholder="请输入问题">
+                </div>
+                <div id="ai-response"></div>
+                <button class="layui-btn layui-btn-primary" id="ask-ai">询问</button>
+            `,
+            btn: ['关闭'],
+            btnAlign: 'c', // 按钮居中
+            yes: function (index) {
+                layer.close(index); // 关闭AI助手
+            },
+            success: function (layero, index) {
+                document.getElementById('ask-ai').addEventListener('click', function () {
+                    const userInput = document.getElementById('user-input').value;
+                    const aiResponse = getAiResponse(userInput);
+
+                    if (aiResponse) {
+                        document.getElementById('ai-response').innerText = aiResponse;
+                    } else {
+                        document.getElementById('ai-response').innerText = "抱歉，我不明白你的意思。";
+                    }
+                });
+            }
+        });
+    }
+});
+
         // 点击特效
         document.querySelectorAll('.click-effect').forEach(element => {
             element.addEventListener('click', function() {
@@ -176,8 +291,6 @@
     </script>
 </body>
 </html>
-          
-
 
 
   
